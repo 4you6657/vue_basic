@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的嵌套</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+    <!-- 
+        几个注意点：
+        一、关于组件名：
+        1、一个单词组成：
+        第一种写法（首字母小写）：school
+        第二种写法（首字母大写）：School
+        2、多个单词组成：
+        第一种写法（kebab-case命名）：my-school
+        第二种写法（CamelCase命名）：MySchool（需要Vue脚手架支持）
+        3、备注：
+        （1）组件名尽可能回溯HTML中已有的元素名称：例如：h2、H2都不行。
+        （2）可以使用name配置项指定组件在开发者工具中呈现的名字。
+
+        二、关于组件标签：
+        第一种写法：<school></school>
+        第二种写法：<school/>（自闭合）必须得在脚手架环境下才能正常使用
+        备注：不使用脚手架时，<school/>会导致后续组件不能渲染。
+
+        三、一个简写方式：
+        const school = Vue.extend(options) 可简写为： const school = options
+     -->
+
+    <div id="root">
+        <!-- <app></app> -->
+    </div>
+    
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false
+
+
+    //1、定义student组件
+    const student = Vue.extend({
+        name:'student',
+        template:`
+        <div>
+            <h2>学生姓名：{{name}}</h2>
+            <h2>学生年龄：{{age}}</h2>
+        </div>
+        `,
+        data(){
+            return{
+                name:'张三',
+                age:18
+            }
+        }
+    })
+
+    //2、定义school组件
+    const school = Vue.extend({
+        name:'school',
+        template:`
+        <div>
+            <h2>学校名称：{{name}}</h2>
+            <h2>学校地址：{{address}}</h2>
+            <student></student>
+        </div>
+        `,
+        data(){
+            return{
+                name:'尚硅谷',
+                address:'北京'
+            }
+        },
+        //注册组件（局部）
+        components:{
+            student
+        }
+    })
+
+    //3、定义hello组件
+    const hello = Vue.extend({
+        template:`
+        <h1>{{msg}}</h1>
+        `,
+        data(){
+            return{
+                msg:'欢迎来到尚硅谷学习！'
+            }
+        }
+    })
+
+    //4、定义app组件
+    const app = Vue.extend({
+        template:`
+        <div>
+            <hello></hello>
+            <school></school>   
+        </div>
+        `,
+        components:{
+            school,
+            hello
+        }
+    })
+    //创建Vue实例vm
+    new Vue({
+        template:'<app></app>',
+        el:'#root',
+        //2、注册组件（局部）
+        components:{
+            app
+        }
+
+    })
+</script>
+</html>

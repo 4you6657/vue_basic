@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>姓名案例_计算属性简写</title>
+    <!-- 引入Vue -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        姓：<input type="text" v-model:value=lastName><br/><br/>
+        名：<input type="text" v-model:value=firstName><br/><br/>
+        全名：<span>{{fullName}}</span><br/><br/>
+    </div>
+</body>
+
+<script type="text/javascript">
+    
+    Vue.config.productionTip = false //阻止Vue在启动时生成生产提示。
+    
+    const vm = new Vue({
+        el:'#root',
+        data:{
+            firstName:'三',
+            lastName:'张',
+        },
+        //计算属性
+        computed:{
+
+            //完整写法
+            // fullName:{
+            //     get(){
+            //         console.log('get被调用了')
+            //         //此处的this指的是Vue实例对象vm
+            //         return this.lastName + '-' + this.firstName
+            //     },
+            //     set(value){
+            //         console.log('set',value)
+            //         const arr = value.split('-')
+            //         this.lastName = arr[0]
+            //         this.firstName = arr[1]
+            //     }
+            // }
+
+            //简写（只考虑读取不考虑修改时使用）
+            // fullName:function()简写如下所示
+            fullName(){ 
+                console.log()
+                return this.lastName + '-' + this.firstName
+            }
+        }
+    })
+</script>
+</html>
